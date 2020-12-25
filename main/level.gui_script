@@ -1,0 +1,50 @@
+function init(self)
+	self.current_score = 0
+	msg.post(".", "acquire_input_focus")
+	self.active = true
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("update_score") then
+		local score_node = gui.get_node("score_text")
+		self.current_score = self.current_score + message.score
+		gui.set_text(score_node, "score: " .. self.current_score)
+	elseif message_id == hash("the_end") then
+		local the_end_window_node = gui.get_node("the_end_window")
+		--local refresh_node = gui.get_node("refresh")
+		gui.animate(the_end_window_node, "position.x", 320, gui.EASING_OUTSINE, 1)
+		--gui.animate(refresh_node, "position.x", 320, gui.EASING_OUTSINE, 1)
+	elseif message_id == hash("refresh_game") then
+		local the_end_window_node = gui.get_node("the_end_window")
+		--local refresh_node = gui.get_node("refresh")
+		gui.animate(the_end_window_node, "position.x", 980, gui.EASING_OUTSINE, 1)
+		--gui.animate(refresh_node, "position.x", 900, gui.EASING_OUTSINE, 1)
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("touch") and action.pressed then
+		local refresh_node = gui.get_node("refresh")
+		if gui.pick_node(refresh_node, action.x, action.y) then
+			msg.post("/manager#manager", "refresh")
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end
