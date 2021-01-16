@@ -107,6 +107,8 @@ function on_input(self, action_id, action)
 			if ((action.x >= (self.fields_pos[i].x - 75)) and (action.x <= (self.fields_pos[i].x + 75)))
 			and
 			((action.y >= (self.fields_pos[i].y - 75)) and (action.y <= (self.fields_pos[i].y + 75)))
+			and
+			(self.current_item_index ~= i)
 			then
 				for j = 1, #self.items_done do
 					if i == self.items_done[j] then
